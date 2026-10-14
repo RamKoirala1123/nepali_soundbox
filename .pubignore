@@ -4,6 +4,8 @@
 *.iml
 .env
 .venv/
+build/
+/build/
 example/build/
 example/.dart_tool/
 example/.flutter-plugins
