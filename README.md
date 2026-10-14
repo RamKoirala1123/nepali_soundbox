@@ -1,11 +1,17 @@
 # 🔊 nepali_soundbox
 [![Pub Package](https://img.shields.io/pub/v/nepali_soundbox)](https://pub.dev/packages/nepali_soundbox)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/RamKoirala1123/nepali_soundbox/blob/main/LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-nepali__soundbox-black?logo=github)](https://github.com/RamKoirala1123/nepali_soundbox)
+[![Demo](https://img.shields.io/badge/Demo-View%20Demo-8b5cf6.svg)](https://ramkoirala1123.github.io/nepali_soundbox_demo/)
 
 A high-performance Nepali payment and currency soundbox package for Flutter (eSewa / Khalti / POS soundbox style).
 
 Pre-bundled with **110 studio-quality, volume-normalized audio clips** (0–99, currency units, and payment suffixes) enabling seamless, zero-latency, completely offline audio playback without requiring cloud TTS API keys or internet access at runtime.
+
+## 🎬 Demo / Visuals
+
+Try the package live in the web demo:
+
+👉 https://ramkoirala1123.github.io/nepali_soundbox_demo/
 
 ## 🚀 Features
 
