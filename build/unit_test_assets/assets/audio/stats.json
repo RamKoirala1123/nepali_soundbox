@@ -1,0 +1,772 @@
+[
+  {
+    "name": "0",
+    "filename": "0.mp3",
+    "size": 5228,
+    "duration": 0.557208,
+    "lufs": -18.45
+  },
+  {
+    "name": "1",
+    "filename": "1.mp3",
+    "size": 4652,
+    "duration": 0.492958,
+    "lufs": -18.45
+  },
+  {
+    "name": "2",
+    "filename": "2.mp3",
+    "size": 4844,
+    "duration": 0.517625,
+    "lufs": -18.5
+  },
+  {
+    "name": "3",
+    "filename": "3.mp3",
+    "size": 4268,
+    "duration": 0.442083,
+    "lufs": -18.45
+  },
+  {
+    "name": "4",
+    "filename": "4.mp3",
+    "size": 4652,
+    "duration": 0.4935,
+    "lufs": -18.35
+  },
+  {
+    "name": "5",
+    "filename": "5.mp3",
+    "size": 4844,
+    "duration": 0.514583,
+    "lufs": -18.44
+  },
+  {
+    "name": "6",
+    "filename": "6.mp3",
+    "size": 4652,
+    "duration": 0.489167,
+    "lufs": -18.35
+  },
+  {
+    "name": "7",
+    "filename": "7.mp3",
+    "size": 5420,
+    "duration": 0.595125,
+    "lufs": -18.5
+  },
+  {
+    "name": "8",
+    "filename": "8.mp3",
+    "size": 4652,
+    "duration": 0.481958,
+    "lufs": -18.45
+  },
+  {
+    "name": "9",
+    "filename": "9.mp3",
+    "size": 4844,
+    "duration": 0.515625,
+    "lufs": -18.45
+  },
+  {
+    "name": "10",
+    "filename": "10.mp3",
+    "size": 5612,
+    "duration": 0.603458,
+    "lufs": -18.45
+  },
+  {
+    "name": "11",
+    "filename": "11.mp3",
+    "size": 5996,
+    "duration": 0.652208,
+    "lufs": -18.42
+  },
+  {
+    "name": "12",
+    "filename": "12.mp3",
+    "size": 5420,
+    "duration": 0.593292,
+    "lufs": -18.45
+  },
+  {
+    "name": "13",
+    "filename": "13.mp3",
+    "size": 4652,
+    "duration": 0.496875,
+    "lufs": -18.45
+  },
+  {
+    "name": "14",
+    "filename": "14.mp3",
+    "size": 5420,
+    "duration": 0.587708,
+    "lufs": -18.45
+  },
+  {
+    "name": "15",
+    "filename": "15.mp3",
+    "size": 5228,
+    "duration": 0.554875,
+    "lufs": -18.41
+  },
+  {
+    "name": "16",
+    "filename": "16.mp3",
+    "size": 5612,
+    "duration": 0.619958,
+    "lufs": -18.45
+  },
+  {
+    "name": "17",
+    "filename": "17.mp3",
+    "size": 5996,
+    "duration": 0.659042,
+    "lufs": -18.45
+  },
+  {
+    "name": "18",
+    "filename": "18.mp3",
+    "size": 5804,
+    "duration": 0.639625,
+    "lufs": -18.45
+  },
+  {
+    "name": "19",
+    "filename": "19.mp3",
+    "size": 6188,
+    "duration": 0.689792,
+    "lufs": -18.46
+  },
+  {
+    "name": "20",
+    "filename": "20.mp3",
+    "size": 5420,
+    "duration": 0.577958,
+    "lufs": -18.45
+  },
+  {
+    "name": "21",
+    "filename": "21.mp3",
+    "size": 6380,
+    "duration": 0.712167,
+    "lufs": -19.93
+  },
+  {
+    "name": "22",
+    "filename": "22.mp3",
+    "size": 5804,
+    "duration": 0.633667,
+    "lufs": -18.46
+  },
+  {
+    "name": "23",
+    "filename": "23.mp3",
+    "size": 5036,
+    "duration": 0.544708,
+    "lufs": -18.46
+  },
+  {
+    "name": "24",
+    "filename": "24.mp3",
+    "size": 6188,
+    "duration": 0.674292,
+    "lufs": -18.44
+  },
+  {
+    "name": "25",
+    "filename": "25.mp3",
+    "size": 5996,
+    "duration": 0.650875,
+    "lufs": -18.87
+  },
+  {
+    "name": "26",
+    "filename": "26.mp3",
+    "size": 6380,
+    "duration": 0.707,
+    "lufs": -18.48
+  },
+  {
+    "name": "27",
+    "filename": "27.mp3",
+    "size": 7148,
+    "duration": 0.795458,
+    "lufs": -18.49
+  },
+  {
+    "name": "28",
+    "filename": "28.mp3",
+    "size": 6380,
+    "duration": 0.708958,
+    "lufs": -18.44
+  },
+  {
+    "name": "29",
+    "filename": "29.mp3",
+    "size": 6764,
+    "duration": 0.752917,
+    "lufs": -18.43
+  },
+  {
+    "name": "30",
+    "filename": "30.mp3",
+    "size": 4652,
+    "duration": 0.487875,
+    "lufs": -18.45
+  },
+  {
+    "name": "31",
+    "filename": "31.mp3",
+    "size": 5996,
+    "duration": 0.649958,
+    "lufs": -19.94
+  },
+  {
+    "name": "32",
+    "filename": "32.mp3",
+    "size": 6572,
+    "duration": 0.73125,
+    "lufs": -19.58
+  },
+  {
+    "name": "33",
+    "filename": "33.mp3",
+    "size": 5996,
+    "duration": 0.656083,
+    "lufs": -18.49
+  },
+  {
+    "name": "34",
+    "filename": "34.mp3",
+    "size": 6188,
+    "duration": 0.684875,
+    "lufs": -18.41
+  },
+  {
+    "name": "35",
+    "filename": "35.mp3",
+    "size": 5804,
+    "duration": 0.6305,
+    "lufs": -18.44
+  },
+  {
+    "name": "36",
+    "filename": "36.mp3",
+    "size": 6380,
+    "duration": 0.712375,
+    "lufs": -19.03
+  },
+  {
+    "name": "37",
+    "filename": "37.mp3",
+    "size": 6764,
+    "duration": 0.74625,
+    "lufs": -18.44
+  },
+  {
+    "name": "38",
+    "filename": "38.mp3",
+    "size": 6572,
+    "duration": 0.735917,
+    "lufs": -18.41
+  },
+  {
+    "name": "39",
+    "filename": "39.mp3",
+    "size": 7724,
+    "duration": 0.865958,
+    "lufs": -18.42
+  },
+  {
+    "name": "40",
+    "filename": "40.mp3",
+    "size": 5804,
+    "duration": 0.638042,
+    "lufs": -18.47
+  },
+  {
+    "name": "41",
+    "filename": "41.mp3",
+    "size": 6764,
+    "duration": 0.765667,
+    "lufs": -19.04
+  },
+  {
+    "name": "42",
+    "filename": "42.mp3",
+    "size": 6572,
+    "duration": 0.743125,
+    "lufs": -18.44
+  },
+  {
+    "name": "43",
+    "filename": "43.mp3",
+    "size": 6764,
+    "duration": 0.7545,
+    "lufs": -18.45
+  },
+  {
+    "name": "44",
+    "filename": "44.mp3",
+    "size": 6764,
+    "duration": 0.756333,
+    "lufs": -18.43
+  },
+  {
+    "name": "45",
+    "filename": "45.mp3",
+    "size": 6572,
+    "duration": 0.722625,
+    "lufs": -18.39
+  },
+  {
+    "name": "46",
+    "filename": "46.mp3",
+    "size": 6764,
+    "duration": 0.746667,
+    "lufs": -18.47
+  },
+  {
+    "name": "47",
+    "filename": "47.mp3",
+    "size": 7532,
+    "duration": 0.852958,
+    "lufs": -18.44
+  },
+  {
+    "name": "48",
+    "filename": "48.mp3",
+    "size": 6764,
+    "duration": 0.757583,
+    "lufs": -18.44
+  },
+  {
+    "name": "49",
+    "filename": "49.mp3",
+    "size": 6764,
+    "duration": 0.767833,
+    "lufs": -18.47
+  },
+  {
+    "name": "50",
+    "filename": "50.mp3",
+    "size": 5804,
+    "duration": 0.641917,
+    "lufs": -18.37
+  },
+  {
+    "name": "51",
+    "filename": "51.mp3",
+    "size": 6188,
+    "duration": 0.688667,
+    "lufs": -18.46
+  },
+  {
+    "name": "52",
+    "filename": "52.mp3",
+    "size": 6188,
+    "duration": 0.688417,
+    "lufs": -18.44
+  },
+  {
+    "name": "53",
+    "filename": "53.mp3",
+    "size": 5996,
+    "duration": 0.659708,
+    "lufs": -18.45
+  },
+  {
+    "name": "54",
+    "filename": "54.mp3",
+    "size": 6380,
+    "duration": 0.70375,
+    "lufs": -18.41
+  },
+  {
+    "name": "55",
+    "filename": "55.mp3",
+    "size": 6380,
+    "duration": 0.710958,
+    "lufs": -20.27
+  },
+  {
+    "name": "56",
+    "filename": "56.mp3",
+    "size": 6380,
+    "duration": 0.698,
+    "lufs": -18.71
+  },
+  {
+    "name": "57",
+    "filename": "57.mp3",
+    "size": 7340,
+    "duration": 0.83625,
+    "lufs": -18.43
+  },
+  {
+    "name": "58",
+    "filename": "58.mp3",
+    "size": 6764,
+    "duration": 0.762667,
+    "lufs": -18.47
+  },
+  {
+    "name": "59",
+    "filename": "59.mp3",
+    "size": 7532,
+    "duration": 0.850417,
+    "lufs": -18.46
+  },
+  {
+    "name": "60",
+    "filename": "60.mp3",
+    "size": 5996,
+    "duration": 0.670792,
+    "lufs": -18.42
+  },
+  {
+    "name": "61",
+    "filename": "61.mp3",
+    "size": 6572,
+    "duration": 0.740292,
+    "lufs": -20.19
+  },
+  {
+    "name": "62",
+    "filename": "62.mp3",
+    "size": 7148,
+    "duration": 0.799458,
+    "lufs": -18.43
+  },
+  {
+    "name": "63",
+    "filename": "63.mp3",
+    "size": 6764,
+    "duration": 0.754542,
+    "lufs": -18.48
+  },
+  {
+    "name": "64",
+    "filename": "64.mp3",
+    "size": 7148,
+    "duration": 0.793958,
+    "lufs": -18.44
+  },
+  {
+    "name": "65",
+    "filename": "65.mp3",
+    "size": 6572,
+    "duration": 0.726458,
+    "lufs": -18.46
+  },
+  {
+    "name": "66",
+    "filename": "66.mp3",
+    "size": 7532,
+    "duration": 0.845042,
+    "lufs": -18.47
+  },
+  {
+    "name": "67",
+    "filename": "67.mp3",
+    "size": 7532,
+    "duration": 0.842542,
+    "lufs": -18.43
+  },
+  {
+    "name": "68",
+    "filename": "68.mp3",
+    "size": 6956,
+    "duration": 0.769958,
+    "lufs": -19.14
+  },
+  {
+    "name": "69",
+    "filename": "69.mp3",
+    "size": 7916,
+    "duration": 0.908042,
+    "lufs": -18.47
+  },
+  {
+    "name": "70",
+    "filename": "70.mp3",
+    "size": 6380,
+    "duration": 0.709083,
+    "lufs": -18.45
+  },
+  {
+    "name": "71",
+    "filename": "71.mp3",
+    "size": 6188,
+    "duration": 0.679917,
+    "lufs": -20.25
+  },
+  {
+    "name": "72",
+    "filename": "72.mp3",
+    "size": 6188,
+    "duration": 0.69375,
+    "lufs": -19.17
+  },
+  {
+    "name": "73",
+    "filename": "73.mp3",
+    "size": 6188,
+    "duration": 0.679042,
+    "lufs": -18.47
+  },
+  {
+    "name": "74",
+    "filename": "74.mp3",
+    "size": 6572,
+    "duration": 0.727792,
+    "lufs": -18.45
+  },
+  {
+    "name": "75",
+    "filename": "75.mp3",
+    "size": 6572,
+    "duration": 0.743125,
+    "lufs": -18.44
+  },
+  {
+    "name": "76",
+    "filename": "76.mp3",
+    "size": 6956,
+    "duration": 0.787667,
+    "lufs": -18.43
+  },
+  {
+    "name": "77",
+    "filename": "77.mp3",
+    "size": 7340,
+    "duration": 0.838917,
+    "lufs": -18.48
+  },
+  {
+    "name": "78",
+    "filename": "78.mp3",
+    "size": 6764,
+    "duration": 0.753917,
+    "lufs": -20.91
+  },
+  {
+    "name": "79",
+    "filename": "79.mp3",
+    "size": 5996,
+    "duration": 0.66675,
+    "lufs": -18.45
+  },
+  {
+    "name": "80",
+    "filename": "80.mp3",
+    "size": 4844,
+    "duration": 0.509458,
+    "lufs": -19.47
+  },
+  {
+    "name": "81",
+    "filename": "81.mp3",
+    "size": 6188,
+    "duration": 0.677542,
+    "lufs": -18.67
+  },
+  {
+    "name": "82",
+    "filename": "82.mp3",
+    "size": 6764,
+    "duration": 0.749458,
+    "lufs": -18.44
+  },
+  {
+    "name": "83",
+    "filename": "83.mp3",
+    "size": 6188,
+    "duration": 0.688958,
+    "lufs": -18.38
+  },
+  {
+    "name": "84",
+    "filename": "84.mp3",
+    "size": 6764,
+    "duration": 0.751667,
+    "lufs": -18.48
+  },
+  {
+    "name": "85",
+    "filename": "85.mp3",
+    "size": 6188,
+    "duration": 0.686125,
+    "lufs": -18.47
+  },
+  {
+    "name": "86",
+    "filename": "86.mp3",
+    "size": 6572,
+    "duration": 0.727708,
+    "lufs": -18.45
+  },
+  {
+    "name": "87",
+    "filename": "87.mp3",
+    "size": 6764,
+    "duration": 0.765917,
+    "lufs": -18.45
+  },
+  {
+    "name": "88",
+    "filename": "88.mp3",
+    "size": 6188,
+    "duration": 0.677667,
+    "lufs": -18.48
+  },
+  {
+    "name": "89",
+    "filename": "89.mp3",
+    "size": 6764,
+    "duration": 0.756708,
+    "lufs": -18.41
+  },
+  {
+    "name": "90",
+    "filename": "90.mp3",
+    "size": 5612,
+    "duration": 0.612917,
+    "lufs": -18.42
+  },
+  {
+    "name": "91",
+    "filename": "91.mp3",
+    "size": 6956,
+    "duration": 0.769958,
+    "lufs": -19.51
+  },
+  {
+    "name": "92",
+    "filename": "92.mp3",
+    "size": 7340,
+    "duration": 0.825208,
+    "lufs": -18.48
+  },
+  {
+    "name": "93",
+    "filename": "93.mp3",
+    "size": 7532,
+    "duration": 0.841958,
+    "lufs": -18.48
+  },
+  {
+    "name": "94",
+    "filename": "94.mp3",
+    "size": 7532,
+    "duration": 0.852458,
+    "lufs": -18.45
+  },
+  {
+    "name": "95",
+    "filename": "95.mp3",
+    "size": 7340,
+    "duration": 0.8355,
+    "lufs": -18.48
+  },
+  {
+    "name": "96",
+    "filename": "96.mp3",
+    "size": 7340,
+    "duration": 0.818292,
+    "lufs": -18.45
+  },
+  {
+    "name": "97",
+    "filename": "97.mp3",
+    "size": 7916,
+    "duration": 0.908625,
+    "lufs": -18.39
+  },
+  {
+    "name": "98",
+    "filename": "98.mp3",
+    "size": 7148,
+    "duration": 0.794833,
+    "lufs": -20.09
+  },
+  {
+    "name": "99",
+    "filename": "99.mp3",
+    "size": 6572,
+    "duration": 0.726875,
+    "lufs": -18.47
+  },
+  {
+    "name": "hundred",
+    "filename": "hundred.mp3",
+    "size": 5036,
+    "duration": 0.543792,
+    "lufs": -18.55
+  },
+  {
+    "name": "thousand",
+    "filename": "thousand.mp3",
+    "size": 5228,
+    "duration": 0.571708,
+    "lufs": -18.45
+  },
+  {
+    "name": "lakh",
+    "filename": "lakh.mp3",
+    "size": 5228,
+    "duration": 0.56525,
+    "lufs": -18.44
+  },
+  {
+    "name": "crore",
+    "filename": "crore.mp3",
+    "size": 4844,
+    "duration": 0.505958,
+    "lufs": -18.45
+  },
+  {
+    "name": "arab",
+    "filename": "arab.mp3",
+    "size": 4844,
+    "duration": 0.514792,
+    "lufs": -18.42
+  },
+  {
+    "name": "rupaiya",
+    "filename": "rupaiya.mp3",
+    "size": 6188,
+    "duration": 0.679958,
+    "lufs": -18.45
+  },
+  {
+    "name": "paisa",
+    "filename": "paisa.mp3",
+    "size": 5036,
+    "duration": 0.544083,
+    "lufs": -18.46
+  },
+  {
+    "name": "matra",
+    "filename": "matra.mp3",
+    "size": 5612,
+    "duration": 0.616083,
+    "lufs": -18.43
+  },
+  {
+    "name": "prapta_bhayo",
+    "filename": "prapta_bhayo.mp3",
+    "size": 7148,
+    "duration": 0.815542,
+    "lufs": -18.48
+  },
+  {
+    "name": "ra",
+    "filename": "ra.mp3",
+    "size": 3692,
+    "duration": 0.367833,
+    "lufs": -Infinity
+  }
+]

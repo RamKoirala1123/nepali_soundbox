@@ -40,6 +40,9 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   bool _includeMatra = true;
   bool _includePraptaBhayo = true;
   bool _isPlaying = false;
+  double _speed = 1.0;
+  int _gapMs = 0;
+  int _currentClipIndex = -1;
   String _nepaliWords = '';
   List<String> _clips = [];
 
@@ -56,8 +59,7 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   @override
   void initState() {
     super.initState();
-    // Default asset prefix for local package testing
-    _tts = NepaliTTS(assetPrefix: 'assets/audio');
+    _tts = NepaliTTS();
     _updateDetails();
   }
 
@@ -82,18 +84,40 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
 
   Future<void> _speak() async {
     final amount = double.tryParse(_amountController.text) ?? 0.0;
-    setState(() => _isPlaying = true);
+    setState(() {
+      _isPlaying = true;
+      _currentClipIndex = -1;
+    });
     try {
       await _tts.speakAmount(
         amount,
+        speed: _speed,
+        gapMs: _gapMs,
         options: NepaliAmountOptions(
           includeMatra: _includeMatra,
           includePraptaBhayo: _includePraptaBhayo,
         ),
+        onClipStarted: (clip, index) {
+          if (mounted) {
+            setState(() => _currentClipIndex = index);
+          }
+        },
       );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Audio Error: $e'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
     } finally {
       if (mounted) {
-        setState(() => _isPlaying = false);
+        setState(() {
+          _isPlaying = false;
+          _currentClipIndex = -1;
+        });
       }
     }
   }
@@ -101,7 +125,10 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   Future<void> _stop() async {
     await _tts.stop();
     if (mounted) {
-      setState(() => _isPlaying = false);
+      setState(() {
+        _isPlaying = false;
+        _currentClipIndex = -1;
+      });
     }
   }
 
@@ -181,8 +208,8 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
                         return ActionChip(
                           label: Text(
                             amt >= 100000
-                              ? 'रु. ${amt.toStringAsFixed(0)} (१ लाख)'
-                              : 'रु. ${amt.toString().replaceAll(RegExp(r"\.0$"), "")}',
+                                ? 'रु. ${amt.toStringAsFixed(0)} (१ लाख)'
+                                : 'रु. ${amt.toString().replaceAll(RegExp(r"\.0$"), "")}',
                           ),
                           onPressed: () {
                             _amountController.text =
@@ -224,6 +251,61 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
                         setState(() => _includePraptaBhayo = val);
                         _updateDetails();
                       },
+                    ),
+                    const Divider(height: 1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Gap Between Words:',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              Text('${_gapMs}ms',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
+                            ],
+                          ),
+                          Slider(
+                            value: _gapMs.toDouble(),
+                            min: 0,
+                            max: 200,
+                            divisions: 20,
+                            label: '${_gapMs}ms',
+                            onChanged: (val) =>
+                                setState(() => _gapMs = val.round()),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Playback Speed:',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w600)),
+                              Text('${_speed.toStringAsFixed(2)}x',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
+                            ],
+                          ),
+                          Slider(
+                            value: _speed,
+                            min: 0.5,
+                            max: 2.0,
+                            divisions: 15,
+                            label: '${_speed.toStringAsFixed(2)}x',
+                            onChanged: (val) => setState(() => _speed = val),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -281,15 +363,34 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
                     Wrap(
                       spacing: 6,
                       runSpacing: 6,
-                      children: _clips.map((c) {
+                      children: List.generate(_clips.length, (idx) {
+                        final c = _clips[idx];
+                        final isCurrent = _currentClipIndex == idx;
                         return Chip(
+                          backgroundColor: isCurrent
+                              ? Theme.of(context).colorScheme.primary
+                              : null,
+                          side: isCurrent
+                              ? BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 2,
+                                )
+                              : null,
                           visualDensity: VisualDensity.compact,
                           label: Text(
                             '$c.mp3',
-                            style: const TextStyle(fontSize: 11),
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: isCurrent
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: isCurrent
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : null,
+                            ),
                           ),
                         );
-                      }).toList(),
+                      }),
                     ),
                   ],
                 ),
@@ -322,7 +423,9 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
                           )
                         : const Icon(Icons.play_arrow_rounded, size: 28),
                     label: Text(
-                      _isPlaying ? 'बोल्दैछ... (Speaking)' : 'बोल्नुहोस् (Speak)',
+                      _isPlaying
+                          ? 'बोल्दैछ... (Speaking)'
+                          : 'बोल्नुहोस् (Speak)',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
