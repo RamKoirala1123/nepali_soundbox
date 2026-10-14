@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nepali_tts/nepali_tts.dart';
+import 'package:nepali_soundbox/nepali_soundbox.dart';
 
 void main() {
   group('NepaliAmountConverter Tests', () {

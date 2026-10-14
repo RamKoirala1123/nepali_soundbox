@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'nepali_amount_converter.dart';
 
 /// Soundbox audio player for announcing Nepali amounts.
-class NepaliTTS {
+class NepaliSoundbox {
   final AudioPlayer _player;
   bool _isPlaying = false;
   Completer<void>? _currentPlaybackCompleter;
@@ -19,8 +19,8 @@ class NepaliTTS {
   /// In-memory cache for audio clip bytes (total size for all 110 clips is ~700 KB).
   static final Map<String, Uint8List> _audioCache = {};
 
-  /// Creates a [NepaliTTS] instance.
-  NepaliTTS({
+  /// Creates a [NepaliSoundbox] instance.
+  NepaliSoundbox({
     AudioPlayer? player,
     this.speed = 1.0,
     this.gapMs = 0,
@@ -36,8 +36,8 @@ class NepaliTTS {
   ///
   /// Example:
   /// ```dart
-  /// final tts = NepaliTTS(gapMs: 50);
-  /// await tts.speakAmount(1530.30);
+  /// final soundbox = NepaliSoundbox(gapMs: 50);
+  /// await soundbox.speakAmount(1530.30);
   /// ```
   Future<void> speakAmount(
     num amount, {
@@ -62,6 +62,7 @@ class NepaliTTS {
     }
 
     final candidates = [
+      "packages/nepali_soundbox/assets/audio/$clipKey.mp3",
       "packages/nepali_tts/assets/audio/$clipKey.mp3",
       "assets/audio/$clipKey.mp3",
       "audio/$clipKey.mp3",
@@ -114,7 +115,7 @@ class NepaliTTS {
 
         onClipStarted?.call(key, i);
         debugPrint(
-            "[NepaliTTS] Playing clip [$i/${clipKeys.length}]: $key.mp3");
+            "[NepaliSoundbox] Playing clip [$i/${clipKeys.length}]: $key.mp3");
 
         final bytes = await _loadClipBytes(key);
 
@@ -137,7 +138,7 @@ class NepaliTTS {
         }
       }
     } catch (e, st) {
-      debugPrint("[NepaliTTS] Playback error: $e\n$st");
+      debugPrint("[NepaliSoundbox] Playback error: $e\n$st");
       rethrow;
     } finally {
       _isPlaying = false;
@@ -152,7 +153,7 @@ class NepaliTTS {
 
   /// Preloads all 110 audio clips into memory for instant playback.
   static Future<void> preloadAll() async {
-    final tts = NepaliTTS();
+    final soundbox = NepaliSoundbox();
     final allKeys = [
       for (int i = 0; i < 100; i++) i.toString(),
       "hundred",
@@ -168,10 +169,10 @@ class NepaliTTS {
     ];
     for (final key in allKeys) {
       try {
-        await tts._loadClipBytes(key);
+        await soundbox._loadClipBytes(key);
       } catch (_) {}
     }
-    await tts.dispose();
+    await soundbox.dispose();
   }
 
   /// Stops any currently playing audio sequence immediately.
@@ -193,3 +194,6 @@ class NepaliTTS {
     await _player.dispose();
   }
 }
+
+/// Backwards compatibility alias for [NepaliSoundbox].
+typedef NepaliTTS = NepaliSoundbox;

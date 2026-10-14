@@ -1,9 +1,9 @@
-name: nepali_tts
-description: A Nepali text-to-speech soundbox package for currency and payment announcements (eSewa / Khalti style) using high-quality pre-generated neural audio clips.
+name: nepali_soundbox
+description: A Nepali currency and payment announcement soundbox package for Flutter (eSewa / Khalti style) using high-quality pre-bundled neural audio clips.
 version: 0.0.1
-homepage: https://github.com/RamKoirala1123/nepali_tts
-repository: https://github.com/RamKoirala1123/nepali_tts
-issue_tracker: https://github.com/RamKoirala1123/nepali_tts/issues
+homepage: https://github.com/RamKoirala1123/nepali_soundbox
+repository: https://github.com/RamKoirala1123/nepali_soundbox
+issue_tracker: https://github.com/RamKoirala1123/nepali_soundbox/issues
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

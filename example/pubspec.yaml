@@ -1,5 +1,5 @@
 name: example
-description: Demonstrates how to use the nepali_tts package.
+description: Demonstrates how to use the nepali_soundbox package.
 publish_to: "none"
 version: 1.0.0+1
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  nepali_tts:
+  nepali_soundbox:
     path: ../
 
 dev_dependencies:

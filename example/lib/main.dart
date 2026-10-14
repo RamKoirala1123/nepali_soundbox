@@ -1,44 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:nepali_tts/nepali_tts.dart';
+import 'package:nepali_soundbox/nepali_soundbox.dart';
 
 void main() {
-  runApp(const NepaliTtsDemoApp());
+  runApp(const NepaliSoundboxDemoApp());
 }
 
-class NepaliTtsDemoApp extends StatelessWidget {
-  const NepaliTtsDemoApp({super.key});
+class NepaliSoundboxDemoApp extends StatelessWidget {
+  const NepaliSoundboxDemoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Nepali TTS Soundbox Demo',
+      title: 'नेपाली Soundbox',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC), // Crisp slate-50
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00897B),
-          brightness: Brightness.light,
+          seedColor: const Color(0xFF059669), // Emerald
+          primary: const Color(0xFF059669),
+          surface: Colors.white,
         ),
+        fontFamily: 'Roboto',
       ),
-      home: const SoundboxScreen(),
+      home: const CleanSoundboxScreen(),
     );
   }
 }
 
-class SoundboxScreen extends StatefulWidget {
-  const SoundboxScreen({super.key});
+class CleanSoundboxScreen extends StatefulWidget {
+  const CleanSoundboxScreen({super.key});
 
   @override
-  State<SoundboxScreen> createState() => _SoundboxScreenState();
+  State<CleanSoundboxScreen> createState() => _CleanSoundboxScreenState();
 }
 
-class _SoundboxScreenState extends State<SoundboxScreen> {
+class _CleanSoundboxScreenState extends State<CleanSoundboxScreen> {
   final TextEditingController _amountController =
       TextEditingController(text: '1530.30');
-  late final NepaliTTS _tts;
+  late final NepaliSoundbox _soundbox;
 
   bool _includeMatra = true;
   bool _includePraptaBhayo = true;
+  bool _includeRaForPaisa = false;
   bool _isPlaying = false;
   double _speed = 1.0;
   int _gapMs = 0;
@@ -47,7 +52,6 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   List<String> _clips = [];
 
   final List<double> _quickAmounts = [
-    10,
     50,
     100,
     500,
@@ -59,14 +63,14 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   @override
   void initState() {
     super.initState();
-    _tts = NepaliTTS();
+    _soundbox = NepaliSoundbox();
     _updateDetails();
   }
 
   @override
   void dispose() {
     _amountController.dispose();
-    _tts.dispose();
+    _soundbox.dispose();
     super.dispose();
   }
 
@@ -75,6 +79,7 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
     final options = NepaliAmountOptions(
       includeMatra: _includeMatra,
       includePraptaBhayo: _includePraptaBhayo,
+      includeRaForPaisa: _includeRaForPaisa,
     );
     setState(() {
       _nepaliWords = NepaliAmountConverter.toWords(amount, options: options);
@@ -89,13 +94,14 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
       _currentClipIndex = -1;
     });
     try {
-      await _tts.speakAmount(
+      await _soundbox.speakAmount(
         amount,
         speed: _speed,
         gapMs: _gapMs,
         options: NepaliAmountOptions(
           includeMatra: _includeMatra,
           includePraptaBhayo: _includePraptaBhayo,
+          includeRaForPaisa: _includeRaForPaisa,
         ),
         onClipStarted: (clip, index) {
           if (mounted) {
@@ -123,7 +129,7 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   }
 
   Future<void> _stop() async {
-    await _tts.stop();
+    await _soundbox.stop();
     if (mounted) {
       setState(() {
         _isPlaying = false;
@@ -135,319 +141,532 @@ class _SoundboxScreenState extends State<SoundboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('नेपाली Soundbox (TTS)'),
-        elevation: 2,
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            child: ConstrainedBox(
+              // Generous breathable spacing on desktop / high screens, natural on mobile
+              constraints: const BoxConstraints(maxWidth: 460),
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(
+                    color: const Color(0xFFE2E8F0),
+                    width: 1.2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF0F172A).withOpacity(0.06),
+                      blurRadius: 32,
+                      offset: const Offset(0, 12),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Header Brand
+                    _buildHeader(),
+
+                    const SizedBox(height: 24),
+
+                    // 1. TOP: Amount Enter Field
+                    _buildAmountField(),
+
+                    const SizedBox(height: 12),
+
+                    // Quick Select Chips
+                    _buildQuickChips(),
+
+                    const SizedBox(height: 20),
+
+                    // 2. BELOW AMOUNT: Play Sound Button
+                    _buildPlayButton(),
+
+                    const SizedBox(height: 24),
+
+                    // 3. MIDDLE: Nepali Words & Live Clip Sequence
+                    _buildNepaliWordsCard(),
+
+                    const SizedBox(height: 24),
+
+                    // 4. BOTTOM: Settings
+                    _buildSettingsCard(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
           children: [
-            // Amount Input Card
-            Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'रकम प्रविष्ट गर्नुहोस् (Enter Amount in Rs.)',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _amountController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.2,
-                      ),
-                      decoration: InputDecoration(
-                        prefixText: 'रु. ',
-                        prefixStyle: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 16,
-                        ),
-                      ),
-                      onChanged: (_) => _updateDetails(),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'द्रुत रकम (Quick Select):',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: _quickAmounts.map((amt) {
-                        return ActionChip(
-                          label: Text(
-                            amt >= 100000
-                                ? 'रु. ${amt.toStringAsFixed(0)} (१ लाख)'
-                                : 'रु. ${amt.toString().replaceAll(RegExp(r"\.0$"), "")}',
-                          ),
-                          onPressed: () {
-                            _amountController.text =
-                                amt.toString().replaceAll(RegExp(r"\.0$"), "");
-                            _updateDetails();
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  ],
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFECFDF5),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: const Color(0xFFA7F3D0),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-
-            // Options Card
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    SwitchListTile(
-                      title: const Text('Add "मात्र" (Only)'),
-                      value: _includeMatra,
-                      onChanged: (val) {
-                        setState(() => _includeMatra = val);
-                        _updateDetails();
-                      },
-                    ),
-                    const Divider(height: 1),
-                    SwitchListTile(
-                      title: const Text('Add "प्राप्त भयो" (Received)'),
-                      value: _includePraptaBhayo,
-                      onChanged: (val) {
-                        setState(() => _includePraptaBhayo = val);
-                        _updateDetails();
-                      },
-                    ),
-                    const Divider(height: 1),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Gap Between Words:',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
-                              Text('${_gapMs}ms',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)),
-                            ],
-                          ),
-                          Slider(
-                            value: _gapMs.toDouble(),
-                            min: 0,
-                            max: 200,
-                            divisions: 20,
-                            label: '${_gapMs}ms',
-                            onChanged: (val) =>
-                                setState(() => _gapMs = val.round()),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Playback Speed:',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w600)),
-                              Text('${_speed.toStringAsFixed(2)}x',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)),
-                            ],
-                          ),
-                          Slider(
-                            value: _speed,
-                            min: 0.5,
-                            max: 2.0,
-                            divisions: 15,
-                            label: '${_speed.toStringAsFixed(2)}x',
-                            onChanged: (val) => setState(() => _speed = val),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              child: const Icon(
+                Icons.volume_up_rounded,
+                color: Color(0xFF059669),
+                size: 24,
               ),
             ),
-            const SizedBox(height: 20),
-
-            // Spoken Announcement Display
-            Card(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.volume_up_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'नेपाली बोली (Announcement):',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      _nepaliWords.isEmpty ? '(रकम खाली छ)' : _nepaliWords,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Audio Clips Sequence:',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: List.generate(_clips.length, (idx) {
-                        final c = _clips[idx];
-                        final isCurrent = _currentClipIndex == idx;
-                        return Chip(
-                          backgroundColor: isCurrent
-                              ? Theme.of(context).colorScheme.primary
-                              : null,
-                          side: isCurrent
-                              ? BorderSide(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  width: 2,
-                                )
-                              : null,
-                          visualDensity: VisualDensity.compact,
-                          label: Text(
-                            '$c.mp3',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: isCurrent
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                              color: isCurrent
-                                  ? Theme.of(context).colorScheme.onPrimary
-                                  : null,
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 28),
-
-            // Play / Stop Controls
-            Row(
+            const SizedBox(width: 12),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    onPressed: _isPlaying ? null : _speak,
-                    icon: _isPlaying
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Icon(Icons.play_arrow_rounded, size: 28),
-                    label: Text(
-                      _isPlaying
-                          ? 'बोल्दैछ... (Speaking)'
-                          : 'बोल्नुहोस् (Speak)',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                Text(
+                  'नेपाली Soundbox (TTS)',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0F172A),
+                    letterSpacing: -0.3,
                   ),
                 ),
-                if (_isPlaying) ...[
-                  const SizedBox(width: 12),
-                  IconButton.filled(
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      padding: const EdgeInsets.all(16),
-                    ),
-                    icon: const Icon(Icons.stop_rounded, color: Colors.white),
-                    onPressed: _stop,
+                Text(
+                  'Payment Soundbox Simulator',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF64748B),
                   ),
-                ],
+                ),
               ],
             ),
           ],
         ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: _isPlaying
+                ? const Color(0xFFECFDF5)
+                : const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: _isPlaying
+                  ? const Color(0xFF34D399)
+                  : const Color(0xFFCBD5E1),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 7,
+                height: 7,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _isPlaying
+                      ? const Color(0xFF059669)
+                      : const Color(0xFF94A3B8),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                _isPlaying ? 'Playing' : 'Ready',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: _isPlaying
+                      ? const Color(0xFF059669)
+                      : const Color(0xFF64748B),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAmountField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFE2E8F0),
+          width: 1.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'रकम प्रविष्ट गर्नुहोस् (ENTER AMOUNT)',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+              color: Color(0xFF64748B),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'रु. ',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFF059669),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0F172A),
+                    letterSpacing: 0.5,
+                  ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                    hintText: '0.00',
+                    hintStyle: TextStyle(color: Color(0xFF94A3B8)),
+                  ),
+                  onChanged: (_) => _updateDetails(),
+                ),
+              ),
+              if (_amountController.text.isNotEmpty)
+                IconButton(
+                  icon: const Icon(Icons.clear_rounded,
+                      size: 20, color: Color(0xFF94A3B8)),
+                  onPressed: () {
+                    _amountController.clear();
+                    _updateDetails();
+                  },
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickChips() {
+    return SizedBox(
+      height: 36,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemCount: _quickAmounts.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 6),
+        itemBuilder: (context, index) {
+          final amt = _quickAmounts[index];
+          final label = amt >= 100000
+              ? 'रु. १ लाख'
+              : 'रु. ${amt.toString().replaceAll(RegExp(r"\.0$"), "")}';
+          return InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () {
+              _amountController.text =
+                  amt.toString().replaceAll(RegExp(r"\.0$"), "");
+              _updateDetails();
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFFE2E8F0),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF334155),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildPlayButton() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: 56,
+      decoration: BoxDecoration(
+        color: _isPlaying ? const Color(0xFFDC2626) : const Color(0xFF059669),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: (_isPlaying ? const Color(0xFFDC2626) : const Color(0xFF059669))
+                .withOpacity(0.3),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        onPressed: _isPlaying ? _stop : _speak,
+        icon: _isPlaying
+            ? const Icon(Icons.stop_rounded, size: 28)
+            : const Icon(Icons.play_arrow_rounded, size: 28),
+        label: Text(
+          _isPlaying ? 'रोक्नुहोस् (Stop)' : 'बोल्नुहोस् (Speak)',
+          style: const TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.3,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNepaliWordsCard() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.chat_bubble_outline_rounded,
+                  size: 16, color: Color(0xFF059669)),
+              SizedBox(width: 6),
+              Text(
+                'नेपाली बोली (Spoken Words):',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            _nepaliWords.isEmpty ? '(रकम खाली छ)' : _nepaliWords,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
+              height: 1.45,
+              color: Color(0xFF0F172A),
+            ),
+          ),
+          const SizedBox(height: 14),
+          const Divider(color: Color(0xFFE2E8F0), height: 1),
+          const SizedBox(height: 12),
+          const Text(
+            'Audio Clips Track:',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF94A3B8),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: List.generate(_clips.length, (idx) {
+              final c = _clips[idx];
+              final isCurrent = _currentClipIndex == idx;
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: isCurrent
+                      ? const Color(0xFF059669)
+                      : Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: isCurrent
+                        ? const Color(0xFF059669)
+                        : const Color(0xFFCBD5E1),
+                  ),
+                ),
+                child: Text(
+                  '$c.mp3',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight:
+                        isCurrent ? FontWeight.bold : FontWeight.w500,
+                    color: isCurrent ? Colors.white : const Color(0xFF475569),
+                  ),
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSettingsCard() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.tune_rounded, size: 16, color: Color(0xFF64748B)),
+              SizedBox(width: 6),
+              Text(
+                'सेटिङ (Audio Settings)',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // Speed Slider
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'गति (Speed):',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF334155),
+                ),
+              ),
+              Text(
+                '${_speed.toStringAsFixed(2)}x',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF059669),
+                ),
+              ),
+            ],
+          ),
+          Slider(
+            value: _speed,
+            min: 0.5,
+            max: 2.0,
+            divisions: 15,
+            activeColor: const Color(0xFF059669),
+            onChanged: (val) => setState(() => _speed = val),
+          ),
+
+          // Gap Slider
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'शब्द दूरी (Silence Gap):',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF334155),
+                ),
+              ),
+              Text(
+                '${_gapMs}ms',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF059669),
+                ),
+              ),
+            ],
+          ),
+          Slider(
+            value: _gapMs.toDouble(),
+            min: 0,
+            max: 200,
+            divisions: 20,
+            activeColor: const Color(0xFF059669),
+            onChanged: (val) => setState(() => _gapMs = val.round()),
+          ),
+
+          const Divider(color: Color(0xFFE2E8F0), height: 16),
+
+          // Suffix Toggles
+          SwitchListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Add "मात्र" (Only)'),
+            activeColor: const Color(0xFF059669),
+            value: _includeMatra,
+            onChanged: (val) {
+              setState(() => _includeMatra = val);
+              _updateDetails();
+            },
+          ),
+          SwitchListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Add "प्राप्त भयो" (Received)'),
+            activeColor: const Color(0xFF059669),
+            value: _includePraptaBhayo,
+            onChanged: (val) {
+              setState(() => _includePraptaBhayo = val);
+              _updateDetails();
+            },
+          ),
+          SwitchListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Add "र" before Paisa'),
+            activeColor: const Color(0xFF059669),
+            value: _includeRaForPaisa,
+            onChanged: (val) {
+              setState(() => _includeRaForPaisa = val);
+              _updateDetails();
+            },
+          ),
+        ],
       ),
     );
   }

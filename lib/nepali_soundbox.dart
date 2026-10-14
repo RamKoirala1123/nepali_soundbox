@@ -1,5 +1,5 @@
-/// Nepali TTS - Soundbox & currency speech generator for Flutter.
-library nepali_tts;
+/// Nepali Soundbox - Offline currency & payment speech soundbox for Flutter.
+library nepali_soundbox;
 
 export 'src/nepali_words.dart';
 export 'src/nepali_amount_converter.dart';

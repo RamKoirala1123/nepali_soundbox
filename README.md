@@ -1,14 +1,15 @@
-# nepali_tts
+# 🔊 nepali_soundbox
+[![Pub Package](https://img.shields.io/pub/v/nepali_soundbox)](https://pub.dev/packages/nepali_soundbox)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/RamKoirala1123/nepali_soundbox/blob/main/LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-nepali__soundbox-black?logo=github)](https://github.com/RamKoirala1123/nepali_soundbox)
 
-A high-performance Nepali text-to-speech (TTS) soundbox package for Flutter, designed for **currency, payment, and transaction announcements** (eSewa / Khalti / POS soundbox style).
+A high-performance Nepali payment and currency soundbox package for Flutter (eSewa / Khalti / POS soundbox style).
 
-Pre-bundled with **110 studio-quality, volume-normalized audio clips** (0–99, units, and payment suffixes) enabling seamless, zero-latency, completely offline audio playback without requiring cloud TTS API keys or internet access at runtime.
+Pre-bundled with **110 studio-quality, volume-normalized audio clips** (0–99, currency units, and payment suffixes) enabling seamless, zero-latency, completely offline audio playback without requiring cloud TTS API keys or internet access at runtime.
 
----
+## 🚀 Features
 
-## Features
-
-- 🔊 **100% Offline & Instant**: All 110 number and currency clips (`0`–`99`, `hundred`, `thousand`, `lakh`, `crore`, `arab`, `rupaiya`, `paisa`, `matra`, `prapta_bhayo`, `ra`) are bundled directly into the package.
+- 🔊 **100% Offline & Instant**: All 110 number and currency clips (`0`–`99`, `hundred`, `thousand`, `lakh`, `crore`, `arab`, `rupaiya`, `paisa`, `matra`, `prapta_bhayo`, `ra`) are bundled directly.
 - ⚡ **Zero-Latency Soundbox Sequencing**: Uses in-memory byte caching with seamless sequencing, emulating physical merchant soundbox terminals.
 - 🎛️ **Speed & Gap Control**: Configure speech rate (`0.5x` to `2.0x`) and inter-word silence spacing (`gapMs` from `-100ms` for rapid continuous speech up to `200ms` for deliberate cadence).
 - 🇳🇵 **Accurate Nepali Grammar & Numbering**: Decomposes numbers according to the South Asian / Nepali numbering system (एक, सय, हजार, लाख, करोड, अर्ब, रुपैयाँ, पैसा, मात्र, प्राप्त भयो).
@@ -16,61 +17,57 @@ Pre-bundled with **110 studio-quality, volume-normalized audio clips** (0–99, 
 - 🌐 **Cross-Platform**: Supports Android, iOS, Web, macOS, Windows, and Linux out-of-the-box.
 - 🧪 **Fully Tested**: Comprehensive unit test suite covering single digits to multi-crore amounts and paisa combinations.
 
----
+## 🛠️ Getting Started
 
-## Installation
-
-Add `nepali_tts` to your `pubspec.yaml`:
+Add this to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  nepali_tts: ^0.0.1
+  nepali_soundbox: ^0.0.1
 ```
 
-Or via Flutter CLI:
+Then run:
 
 ```bash
-flutter pub add nepali_tts
+flutter pub get
 ```
 
----
+## 💡 Usage
 
-## Usage
-
-### 1. Speak an Amount (eSewa / Khalti Style)
+Import the package:
 
 ```dart
-import 'package:nepali_tts/nepali_tts.dart';
-
-final tts = NepaliTTS();
-
-// Announces: "एक हजार पाँच सय तीस रुपैयाँ तीस पैसा मात्र प्राप्त भयो"
-await tts.speakAmount(1530.30);
-
-// Stop playback at any time:
-await tts.stop();
+import 'package:nepali_soundbox/nepali_soundbox.dart';
 ```
 
----
+### 1. Announce Payment Amount (eSewa / Khalti Soundbox Style)
 
-### 2. Speed and Gap Tuning
+```dart
+final soundbox = NepaliSoundbox();
+
+// Speaks: "एक हजार पाँच सय तीस रुपैयाँ तीस पैसा मात्र प्राप्त भयो"
+await soundbox.speakAmount(1530.30);
+
+// Stop playback at any time:
+await soundbox.stop();
+```
+
+### 2. Speech Rate & Gap Tuning
 
 Adjust speech tempo and word gap spacing to match your app's desired soundbox pace:
 
 ```dart
-await tts.speakAmount(
+await soundbox.speakAmount(
   500,
   speed: 1.1,     // Playback rate: 0.5x to 2.0x (default: 1.0)
-  gapMs: -30,     // Gap between clips in ms (-100 to 200 ms, default: 0)
+  gapMs: -30,     // Gap between clips in ms (-100ms to 200ms, default: 0)
 );
 ```
-
----
 
 ### 3. Custom Announcement Options
 
 ```dart
-await tts.speakAmount(
+await soundbox.speakAmount(
   500,
   options: const NepaliAmountOptions(
     includeMatra: true,         // Adds "मात्र" at the end
@@ -80,15 +77,11 @@ await tts.speakAmount(
 );
 ```
 
----
-
-### 4. Convert Amount to Nepali Text or Clip Keys
+### 4. Convert Amount to Devanagari Text or Clip Keys
 
 You can also use the converter directly without playing audio:
 
 ```dart
-import 'package:nepali_tts/nepali_tts.dart';
-
 // Get Spoken Devanagari Words
 String words = NepaliAmountConverter.toWords(1530.30);
 // -> "एक हजार पाँच सय तीस रुपैयाँ तीस पैसा मात्र प्राप्त भयो"
@@ -98,9 +91,9 @@ List<String> clips = NepaliAmountConverter.toClips(1530.30);
 // -> ['1', 'thousand', '5', 'hundred', '30', 'rupaiya', '30', 'paisa', 'matra', 'prapta_bhayo']
 ```
 
----
+## 📦 Bundled Audio Clips
 
-## Bundled Clip Catalog
+The package bundles 110 pre-normalized clips:
 
 | Clip Keys | Nepali Words | Meaning |
 | :--- | :--- | :--- |
@@ -116,19 +109,19 @@ List<String> clips = NepaliAmountConverter.toClips(1530.30);
 | `prapta_bhayo` | प्राप्त भयो | Received |
 | `ra` | र | And |
 
----
+## 🎬 Example App
 
-## Example App
-
-Check out the interactive demo in `example/lib/main.dart` featuring real-time amount inputs, quick amount chips, speed slider, and gap tuning:
+For a complete interactive demo featuring amount inputs, quick chips, speed slider, and gap tuning, check out the `example/` directory:
 
 ```bash
 cd example
 flutter run
 ```
 
----
+## 🤝 Contributing
 
-## License
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
-MIT License. See [LICENSE](LICENSE) for details.
+## 📄 License
+
+Licensed under the [MIT License](https://github.com/RamKoirala1123/nepali_soundbox/blob/main/LICENSE).
