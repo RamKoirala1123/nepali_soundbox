@@ -1,6 +1,6 @@
 name: nepali_soundbox
 description: A Nepali currency and payment announcement soundbox package for Flutter (eSewa / Khalti style) using high-quality pre-bundled neural audio clips.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/RamKoirala1123/nepali_soundbox
 repository: https://github.com/RamKoirala1123/nepali_soundbox
 issue_tracker: https://github.com/RamKoirala1123/nepali_soundbox/issues

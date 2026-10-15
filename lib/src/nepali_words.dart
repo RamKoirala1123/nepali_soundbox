@@ -1,4 +1,4 @@
-/// Nepali word dictionaries for numbers and currency terms.
+// Nepali word dictionaries for numbers and currency terms.
 
 /// Nepali words for numbers 0 through 99.
 const List<String> nepaliNumbers0To99 = [

@@ -379,7 +379,7 @@ class _FlatSoundboxScreenState extends State<FlatSoundboxScreen> {
                     'Add "मात्र" (Only)',
                     style: TextStyle(fontSize: 13, color: Color(0xFF334155)),
                   ),
-                  activeColor: const Color(0xFF0F766E),
+                  activeThumbColor: const Color(0xFF0F766E),
                   value: _includeMatra,
                   onChanged: (val) => setState(() => _includeMatra = val),
                 ),
@@ -390,7 +390,7 @@ class _FlatSoundboxScreenState extends State<FlatSoundboxScreen> {
                     'Add "प्राप्त भयो" (Received)',
                     style: TextStyle(fontSize: 13, color: Color(0xFF334155)),
                   ),
-                  activeColor: const Color(0xFF0F766E),
+                  activeThumbColor: const Color(0xFF0F766E),
                   value: _includePraptaBhayo,
                   onChanged: (val) =>
                       setState(() => _includePraptaBhayo = val),
@@ -402,7 +402,7 @@ class _FlatSoundboxScreenState extends State<FlatSoundboxScreen> {
                     'Add "र" before Paisa',
                     style: TextStyle(fontSize: 13, color: Color(0xFF334155)),
                   ),
-                  activeColor: const Color(0xFF0F766E),
+                  activeThumbColor: const Color(0xFF0F766E),
                   value: _includeRaForPaisa,
                   onChanged: (val) =>
                       setState(() => _includeRaForPaisa = val),

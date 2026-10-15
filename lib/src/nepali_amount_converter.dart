@@ -11,6 +11,7 @@ class NepaliAmountOptions {
   /// Whether to include 'र' (and) between rupees and paisa.
   final bool includeRaForPaisa;
 
+  /// Creates a [NepaliAmountOptions] configuration.
   const NepaliAmountOptions({
     this.includeMatra = true,
     this.includePraptaBhayo = true,
@@ -19,7 +20,8 @@ class NepaliAmountOptions {
 }
 
 /// Utility class for decomposing numeric amounts into Nepali words and audio clip identifiers.
-class NepaliAmountConverter {
+abstract final class NepaliAmountConverter {
+  NepaliAmountConverter._();
   /// Converts an amount (e.g. `1530.30`) to an ordered list of audio clip keys.
   ///
   /// Example:

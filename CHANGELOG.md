@@ -1,3 +1,10 @@
+## 0.0.2
+
+* Fix dangling library doc comment warning in `nepali_words.dart`.
+* Add dartdoc comments for `NepaliAmountOptions` and mark `NepaliAmountConverter` as non-instantiable utility class.
+* Add package-level `analysis_options.yaml` adhering to `flutter_lints`.
+* Fix deprecated `activeColor` usages in the example application.
+
 ## 0.0.1
 
 * Initial release of `nepali_soundbox`.
